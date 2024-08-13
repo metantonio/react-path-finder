@@ -70,22 +70,8 @@ Algorithm visualizer is a react base web app where we can visualize and play wit
 <h3> Note : </h3>
 <ul>
 <li style="color: #fb005f; font-weight:500"> <strong> It is not mobile responsive </strong></li>
-<li style="color: #fb005f; font-weight:500"><strong> Please use Chrome browser (Recomanded)</strong> </li>
-<li style="color: #fb005f; font-weight:500"><strong> If you have low end PC .Then before opening this web app close all tab (Recomanded) </strong></li>
+<li style="color: #fb005f; font-weight:500"><strong> Please use Chrome browser (Recomended)</strong> </li>
 </ul>
 
-
-<!-- ### DEVELOPER
-
-<table>
-<tbody>
-<tr>
-<td align='center'>
-<img height="130" width="140" src="./Github/Developer/Image/Dev_pro_pic.jpeg" />       <br/>
-<a href="https://github.com/wasim15185"> <Strong>Wasim Akram Biswas </Strong></a>
-</td>
-</tr>
-</tbody>
-</table> -->
 
 ## MIT License
