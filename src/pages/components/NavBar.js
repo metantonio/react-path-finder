@@ -18,7 +18,7 @@ function NavBar() {
 
 				<NavLink to="/dfs">DFS</NavLink> */}
 
-				<Link to="/dijkstra">Dijkstra</Link>
+				<Link to="/dijkstra">Dijkstra Algorithm</Link>
 			</div>
 		</nav>
 	);
