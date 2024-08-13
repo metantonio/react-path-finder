@@ -40,7 +40,7 @@ const Logo = ({ heightInPixel, style, to }) => {
 			<NavLink to={to}>
 				<div>
 					<img src={logoSrc} alt="MainLogo" />
-					<span>Algo / Visualizer</span>
+					<span>QLX</span>
 				</div>
 			</NavLink>
 		</main>

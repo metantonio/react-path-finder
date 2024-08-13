@@ -29,7 +29,7 @@ function Home() {
 	const classes = Style();
 	const { MainDiv, cards } = classes;
 	const numOfCard = [
-		[
+		/* [
 			{
 				title: "Bubble Sort",
 				imgSrc: BubbleSortImg,
@@ -51,16 +51,16 @@ function Home() {
 				desc:
 					"SinglyLinked List is a Data Structure. Where every node pointing a Tail and adding or removing an element in a Linked List from the front,the end or from anywhere in the list But in This project we can remove or add from last in list.It's like VECTOR in Mathematices because it's one directional ",
 			},
-		],
+		], */
 
 		[
-			{
+			/* {
 				title: "Dfs",
 				imgSrc: DfsImg,
 				url: "/dfs",
 				desc:
 					"DFS is searching technique an element in a Graph. Here BFS is using 'Backtracking' for searching an element.	And it's search in Defth of an Graph if elements not found then backtrack will Happen",
-			},
+			}, */
 			{
 				title: "Dijkstra",
 				imgSrc: DijkstraImg,
@@ -110,7 +110,7 @@ function Home() {
 								key={`card-${i}-${j}`}
 								img={e1.imgSrc}
 								title={e1.title}
-								author="abc"
+								author="QLX"
 								description={e1.desc}
 							/>
 						</Link>
