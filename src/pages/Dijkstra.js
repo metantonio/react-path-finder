@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./../css/pages/Dijkstra.css";
 import Canvas from "./components/Canvas";
+import CanvasExample from "./components/CanvasExample"
 import useToggler from "./components/Toggler";
 import sleepFun from "./components/utils/sleepFun";
 import VideoModal from "./components/VideoModal";
@@ -68,7 +69,8 @@ function Dijkstra() {
 				setVisible={setModalVisible}
 				videoUrl={demo}
 			/>
-			<Canvas reload={reload} setArr={setArr} setReload={setReload} />
+			{/* <Canvas reload={reload} setArr={setArr} setReload={setReload} /> */}
+			<CanvasExample reload={reload} setArr={setArr} setReload={setReload} />
 
 			<div className="navigation-area">
 				<Select

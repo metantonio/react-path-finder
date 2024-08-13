@@ -37,23 +37,35 @@ const CanvasExample = ({ reload, setArr }) => {
 		const Circle = circleFun(ctx);
 		const Line = lineFun(ctx);
 		const Arrow = arrowFun(ctx);
+		const yminLimit = 30
+		const ymaxLimit = window.innerHeight / 2.3 - 10
+		const xminLimit = 10
+		const xmaxLimit = window.innerWidth / 2.3 - 10
+
+		//User should set the higher values of X and Y coordinates
+		const maxX = 300
+		const maxY = 160
+
+		// Transformation
+		const transY = ymaxLimit/maxY
+		const transX = xmaxLimit/maxX
 
 		//Lines
 		const drawLines = [
-			new Line({ x: 100, y: 160 }, { x: 100, y: 140 }), //1 to 4
-			new Line({ x: 100, y: 140 }, { x: 100, y: 120 }), //4 to 8
-			new Line({ x: 100, y: 140 }, { x: 200, y: 140 }), //4 to 5
-			new Line({ x: 200, y: 160 }, { x: 200, y: 140 }), //2 to 5
-			new Line({ x: 300, y: 160 }, { x: 300, y: 140 }), //3 to 6
-			new Line({ x: 200, y: 140 }, { x: 300, y: 140 }), //5 to 6
-			new Line({ x: 300, y: 120 }, { x: 300, y: 140 }), //7 to 6
-			new Line({ x: 200, y: 140 }, { x: 200, y: 60 }), //5 to 10
-			new Line({ x: 100, y: 60 }, { x: 200, y: 60 }), //9 to 10
-			new Line({ x: 300, y: 60 }, { x: 200, y: 60 }), //11 to 10
-			new Line({ x: 200, y: 20 }, { x: 200, y: 60 }), //12 to 10
-			new Line({ x: 200, y: 20 }, { x: 300, y: 20 }), //12 to 13
-			new Line({ x: 200, y: 20 }, { x: 200, y: 0 }), //12 to 15
-			new Line({ x: 200, y: 20 }, { x: 100, y: 20 }), //12 to 14
+			new Line({ x: 100*transX, y: 160*transY+yminLimit }, { x: 100*transX, y: 140*transY+yminLimit }), //1 to 4
+			new Line({ x: 100*transX, y: 140*transY+yminLimit }, { x: 100*transX, y: 120*transY+yminLimit }), //4 to 8
+			new Line({ x: 100*transX, y: 140*transY+yminLimit }, { x: 200*transX, y: 140*transY+yminLimit }), //4 to 5
+			new Line({ x: 200*transX, y: 160*transY+yminLimit }, { x: 200*transX, y: 140*transY+yminLimit }), //2 to 5
+			new Line({ x: 300*transX, y: 160*transY+yminLimit }, { x: 300*transX, y: 140*transY+yminLimit }), //3 to 6
+			new Line({ x: 200*transX, y: 140*transY+yminLimit }, { x: 300*transX, y: 140*transY+yminLimit }), //5 to 6
+			new Line({ x: 300*transX, y: 120*transY+yminLimit }, { x: 300*transX, y: 140*transY+yminLimit }), //7 to 6
+			new Line({ x: 200*transX, y: 140*transY+yminLimit }, { x: 200*transX, y: 60*transY+yminLimit }), //5 to 10
+			new Line({ x: 100*transX, y: 60*transY+yminLimit }, { x: 200*transX, y: 60*transY+yminLimit }), //9 to 10
+			new Line({ x: 300*transX, y: 60*transY+yminLimit }, { x: 200*transX, y: 60*transY+yminLimit }), //11 to 10
+			new Line({ x: 200*transX, y: 20*transY+yminLimit }, { x: 200*transX, y: 60*transY+yminLimit }), //12 to 10
+			new Line({ x: 200*transX, y: 20*transY+yminLimit }, { x: 300*transX, y: 20*transY+yminLimit }), //12 to 13
+			new Line({ x: 200*transX, y: 20*transY+yminLimit }, { x: 200*transX, y: 0*transY+yminLimit }), //12 to 15
+			new Line({ x: 200*transX, y: 20*transY+yminLimit }, { x: 100*transX, y: 20*transY+yminLimit }), //12 to 14
 		]
 		
 		//------------------------------------------------------------------
@@ -66,21 +78,21 @@ const CanvasExample = ({ reload, setArr }) => {
 
 		const circleColor = "#f1f1f1";
 
-		const a = new Circle(100, 160, circleColor, "a");
-		const b = new Circle(100, 140, circleColor, "b");
-		const c = new Circle(100, 120, circleColor, "c");
-		const d = new Circle(200, 160, circleColor, "f");
-		const e = new Circle(200, 140, circleColor, "g");
-		const f = new Circle(300, 160, circleColor, "k");
-		const g = new Circle(300, 140, circleColor, "l");
-		const h = new Circle(100, 60, circleColor, "d");
-		const i = new Circle(300, 120, circleColor, "m");
-		const j = new Circle(200, 60, circleColor, "h");
-		const k = new Circle(300, 60, circleColor, "n");
-		const l = new Circle(200, 20, circleColor, "i");
-		const m = new Circle(300, 20, circleColor, "o");
-		const n = new Circle(100, 20, circleColor, "e");
-		const o = new Circle(200, 0, circleColor, "j");
+		const a = new Circle(100*transX, 160*transY+yminLimit, circleColor, "a");
+		const b = new Circle(100*transX, 140*transY+yminLimit, circleColor, "b");
+		const c = new Circle(100*transX, 120*transY+yminLimit, circleColor, "c");
+		const d = new Circle(200*transX, 160*transY+yminLimit, circleColor, "f");
+		const e = new Circle(200*transX, 140*transY+yminLimit, circleColor, "g");
+		const f = new Circle(300*transX, 160*transY+yminLimit, circleColor, "k");
+		const g = new Circle(300*transX, 140*transY+yminLimit, circleColor, "l");
+		const h = new Circle(100*transX, 60*transY+yminLimit, circleColor, "d");
+		const i = new Circle(300*transX, 120*transY+yminLimit, circleColor, "m");
+		const j = new Circle(200*transX, 60*transY+yminLimit, circleColor, "h");
+		const k = new Circle(300*transX, 60*transY+yminLimit, circleColor, "n");
+		const l = new Circle(200*transX, 20*transY+yminLimit, circleColor, "i");
+		const m = new Circle(300*transX, 20*transY+yminLimit, circleColor, "o");
+		const n = new Circle(100*transX, 20*transY+yminLimit, circleColor, "e");
+		const o = new Circle(200*transX, 0*transY+yminLimit, circleColor, "j");
 		
 		//------------------------------------------------------------------------
 
