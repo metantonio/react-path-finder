@@ -1,13 +1,13 @@
 function circle(ctx) {
 	class Circle {
-		radius = window.innerHeight / 160;
+		radius = window.innerHeight / 90;
 		nodeValue = null;
 
 		constructor(x, y, color, nodeName) {
 			this.x = this.scaleX(x);
 			this.y = this.scaleY(y);
 			this.nodeName = nodeName;
-			this.color = color;
+			this.color = color? color: "black";
 		}
 
 		draw() {
@@ -17,17 +17,17 @@ function circle(ctx) {
 			ctx.textAlign = "center";
 			ctx.textBaseline = "middle";
 			//This is Text inside Circle
-			// ctx.fillText(this.nodeName, this.x, this.y);
+			ctx.fillText(this.nodeName, this.x, this.y);
 
 			ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
 
-			ctx.fillStyle = this.color;
+			ctx.fillStyle = "white";
 			ctx.closePath();
-			ctx.fill();
+			/* ctx.fill(); */
 
-			//  ctx.strokeStyle = this.color;
-			// ctx.closePath();
-			// ctx.stroke();
+			ctx.strokeStyle = this.color;
+			ctx.closePath();
+			ctx.stroke();
 		}
 
 		// scaleX and scaleY is calculate value X and Y posprosotinal of the canvas height and width

@@ -76,23 +76,23 @@ const CanvasExample = ({ reload, setArr }) => {
 
 		//Circle drawing
 
-		const circleColor = "#f1f1f1";
+		const circleColor = "#000000";
 
-		const a = new Circle(100*transX, 160*transY+yminLimit, circleColor, "a");
+		const a = new Circle(100*transX, 160*transY+yminLimit, circleColor, "Severs");
 		const b = new Circle(100*transX, 140*transY+yminLimit, circleColor, "b");
-		const c = new Circle(100*transX, 120*transY+yminLimit, circleColor, "c");
-		const d = new Circle(200*transX, 160*transY+yminLimit, circleColor, "f");
+		const c = new Circle(100*transX, 120*transY+yminLimit, circleColor, "Printing Room");
+		const d = new Circle(200*transX, 160*transY+yminLimit, circleColor, "Meeting Room");
 		const e = new Circle(200*transX, 140*transY+yminLimit, circleColor, "g");
-		const f = new Circle(300*transX, 160*transY+yminLimit, circleColor, "k");
-		const g = new Circle(300*transX, 140*transY+yminLimit, circleColor, "l");
-		const h = new Circle(100*transX, 60*transY+yminLimit, circleColor, "d");
-		const i = new Circle(300*transX, 120*transY+yminLimit, circleColor, "m");
+		const f = new Circle(300*transX, 160*transY+yminLimit, circleColor, "Clive's Office");
+		const g = new Circle(300*transX, 140*transY+yminLimit, circleColor, "Nha's office");
+		const h = new Circle(100*transX, 60*transY+yminLimit, circleColor, "Exit");
+		const i = new Circle(300*transX, 120*transY+yminLimit, circleColor, "Arun's Office");
 		const j = new Circle(200*transX, 60*transY+yminLimit, circleColor, "h");
-		const k = new Circle(300*transX, 60*transY+yminLimit, circleColor, "n");
+		const k = new Circle(300*transX, 60*transY+yminLimit, circleColor, "QlX Lab");
 		const l = new Circle(200*transX, 20*transY+yminLimit, circleColor, "i");
-		const m = new Circle(300*transX, 20*transY+yminLimit, circleColor, "o");
-		const n = new Circle(100*transX, 20*transY+yminLimit, circleColor, "e");
-		const o = new Circle(200*transX, 0*transY+yminLimit, circleColor, "j");
+		const m = new Circle(300*transX, 20*transY+yminLimit, circleColor, "Ankit's office");
+		const n = new Circle(100*transX, 20*transY+yminLimit, circleColor, "Kitchen");
+		const o = new Circle(200*transX, 0*transY+yminLimit, circleColor, "Ashton's office");
 		
 		//------------------------------------------------------------------------
 
