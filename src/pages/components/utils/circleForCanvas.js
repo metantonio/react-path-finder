@@ -1,6 +1,6 @@
 function circle(ctx) {
 	class Circle {
-		radius = window.innerHeight / 160;
+		radius = window.innerHeight / 80;
 		nodeValue = null;
 
 		constructor(x, y, color, nodeName) {
