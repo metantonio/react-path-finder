@@ -1,10 +1,10 @@
 import React from "react";
 import Card from "./components/Card";
 import { makeStyles } from "@material-ui/core/styles";
-import BubbleSortImg from "./../images/Algo Pics/BubbleSort.png";
-import QuickSortImg from "./../images/Algo Pics/QuickSort.png";
-import LinkedListImg from "./../images/Algo Pics/LinkedList.png";
-import DfsImg from "./../images/Algo Pics/Dfs.png";
+//import BubbleSortImg from "./../images/Algo Pics/BubbleSort.png";
+//import QuickSortImg from "./../images/Algo Pics/QuickSort.png";
+//import LinkedListImg from "./../images/Algo Pics/LinkedList.png";
+//import DfsImg from "./../images/Algo Pics/Dfs.png";
 import DijkstraImg from "./../images/Algo Pics/Dijkstra.png";
 import { Link } from "react-router-dom";
 

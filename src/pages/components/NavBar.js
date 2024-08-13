@@ -1,7 +1,7 @@
 import React from "react";
 import Logo from "./Logo";
 import "../../css/NavBar.css";
-import { Link, NavLink } from "react-router-dom";
+import { Link/* , NavLink */ } from "react-router-dom";
 
 function NavBar() {
 	// console.log("path of ->" + logo);
