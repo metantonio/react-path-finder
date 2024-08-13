@@ -37,7 +37,7 @@ const CanvasExample = ({ reload, setArr }) => {
 		const Circle = circleFun(ctx);
 		const Line = lineFun(ctx);
 		const Arrow = arrowFun(ctx);
-		const yminLimit = 30
+		const yminLimit = 50
 		const ymaxLimit = window.innerHeight / 2.3 - 10
 		const xminLimit = 10
 		const xmaxLimit = window.innerWidth / 2.3 - 10
