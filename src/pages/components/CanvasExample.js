@@ -114,8 +114,6 @@ const CanvasExample = ({ reload, setArr }) => {
 		];
 
 		//Circle drawing
-
-		// Crear un array de líneas
 		let circleArray = points.map((point, index) => {
 
 			// Crear una nueva instancia de Line con los puntos encontrados
