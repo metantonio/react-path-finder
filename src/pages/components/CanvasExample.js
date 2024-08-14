@@ -51,11 +51,31 @@ const CanvasExample = ({ reload, setArr }) => {
 				{ coordinates: { x: 350, y: 514 }, color: circleColor, label: "c" },
 				{ coordinates: { x: 369, y: 440 }, color: circleColor, label: "star" },
 				{ coordinates: { x: 383, y: 325 }, color: circleColor, label: "hall1" },
+				{ coordinates: { x: 435, y: 427 }, color: circleColor, label: "hall2" },
+				{ coordinates: { x: 439, y: 325 }, color: circleColor, label: "halla" },
+				{ coordinates: { x: 498, y: 298 }, color: circleColor, label: "hall4" },
+				{ coordinates: { x: 440, y: 364 }, color: circleColor, label: "hall3" },
+				{ coordinates: { x: 500, y: 366 }, color: circleColor, label: "hallb" },
+				{ coordinates: { x: 533, y: 380 }, color: circleColor, label: "hallc" },
+				{ coordinates: { x: 533, y: 316 }, color: circleColor, label: "halld" },
+				{ coordinates: { x: 519, y: 260 }, color: circleColor, label: "halle" },
+				{ coordinates: { x: 614, y: 315 }, color: circleColor, label: "hallf" },
 			],
 		edges: [
 			{ start: "c", end: "star" },
 			{ start: "star", end: "hall1" },
-
+			{ start: "star", end: "hall2" },
+			{ start: "hall3", end: "hall2" },
+			{ start: "hall3", end: "halla" },
+			{ start: "halla", end: "hall1" },
+			{ start: "halla", end: "hall4" },
+			{ start: "hall3", end: "hallb" },
+			{ start: "hallc", end: "hallb" },
+			{ start: "hallc", end: "halld" },
+			{ start: "hall4", end: "halld" },
+			{ start: "hall4", end: "halle" },
+			{ start: "halld", end: "halle" },
+			{ start: "halld", end: "hallf" },
 		]
 
 	}
