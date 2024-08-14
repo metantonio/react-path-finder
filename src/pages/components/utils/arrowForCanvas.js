@@ -47,11 +47,12 @@ function arrowFun(ctx) {
 		}
 
 		scaleX(xVal) {
-			return xVal * (window.innerWidth / 1550);
+			//return xVal * (window.innerWidth / 1550);
+			return xVal /* * (window.innerWidth / 1550); */
 		}
 
 		scaleY(yVal) {
-			return yVal * (window.innerHeight / 722);
+			return yVal /* * (window.innerHeight / 722); */
 		}
 
 		// This for moving triangle
@@ -67,6 +68,8 @@ function arrowFun(ctx) {
 		}
 
 		click(mouseX, mouseY) {
+			mouseX = this.scaleX(mouseX);
+  			mouseY = this.scaleY(mouseY);
 			const rightPoint = {
 				xPos: this.scaleX(0) + this.x,
 				yPos: this.scaleY(this.size) + this.y,

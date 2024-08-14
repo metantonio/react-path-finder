@@ -5,10 +5,17 @@ import lineFun from "./utils/lineForCanvas";
 import arrowFun from "./utils/arrowForCanvas";
 import dijkstraAlgo from "./utils/algorithms/DijkstraAlgo";
 
-const useStyle = makeStyles({
+/* const useStyle = makeStyles({
 	canvasStyle: ({ arrowName }) => ({
 		marginTop: "10px",
 		cursor: arrowName ? "grabbing" : "default",
+	}),
+}); */
+
+const useStyle = makeStyles({
+	canvasStyle: ({ arrowName }) => ({
+		marginTop: "10px",
+		cursor: arrowName ? "crosshair" : "default", // Cambiar cursor al seleccionar flecha
 	}),
 });
 
@@ -19,12 +26,64 @@ const CanvasExample = ({ reload, setArr }) => {
 	const [arrows, setArrows] = useState([]);
 	const [start, setStart] = useState({ x: 10, y: 14.5 });
 	const [end, setEnd] = useState({ x: 40, y: 10 });
+	const [selectedArrow, setSelectedArrow] = useState(null);
 	const [startLoctionForDijkstra, setStartLocation] = useState(null);
 	const [finishLoctionForDijkstra, setFinishLoaction] = useState(null);
 	const [dragDeatils, setDragDetails] = useState({
 		arrowName: undefined,
 	});
-	const { canvasStyle } = useStyle(dragDeatils);
+	//const { canvasStyle } = useStyle(dragDeatils);
+	const { canvasStyle } = useStyle({ arrowName: selectedArrow });
+	const circleColor = "#000000";
+
+	const mapData = {
+		points:
+			[
+				{ coordinates: { x: 100, y: 160 }, color: circleColor, label: "a" },
+				{ coordinates: { x: 100, y: 140 }, color: circleColor, label: "b" },
+				{ coordinates: { x: 100, y: 120 }, color: circleColor, label: "c" },
+				{ coordinates: { x: 100, y: 60 }, color: circleColor, label: "d" },
+				{ coordinates: { x: 100, y: 20 }, color: circleColor, label: "e" },
+				{ coordinates: { x: 200, y: 160 }, color: circleColor, label: "f" },
+				{ coordinates: { x: 200, y: 140 }, color: circleColor, label: "g" },
+				{ coordinates: { x: 200, y: 60 }, color: circleColor, label: "h" },
+				{ coordinates: { x: 200, y: 20 }, color: circleColor, label: "i" },
+				{ coordinates: { x: 200, y: 0 }, color: circleColor, label: "j" },
+				{ coordinates: { x: 300, y: 160 }, color: circleColor, label: "k" },
+				{ coordinates: { x: 300, y: 140 }, color: circleColor, label: "l" },
+				{ coordinates: { x: 300, y: 120 }, color: circleColor, label: "m" },
+				{ coordinates: { x: 300, y: 60 }, color: circleColor, label: "n" },
+				{ coordinates: { x: 300, y: 20 }, color: circleColor, label: "o" },
+			],
+		edges: [
+			{ start: "a", end: "b" },
+			{ start: "b", end: "c" },
+			{ start: "b", end: "g" },
+			{ start: "f", end: "g" },
+			{ start: "k", end: "l" },
+			{ start: "g", end: "l" },
+			{ start: "l", end: "m" },
+			{ start: "g", end: "h" },
+			{ start: "d", end: "h" },
+			{ start: "n", end: "h" },
+			{ start: "i", end: "h" },
+			{ start: "i", end: "o" },
+			{ start: "i", end: "j" },
+			{ start: "i", end: "e" },
+		]
+
+	}
+
+	const yminLimit = 50
+	const ymaxLimit = window.innerHeight / 2.3 - 10
+	const xminLimit = 10
+	const xmaxLimit = window.innerWidth / 2.3 - 10
+
+	const maxX = Math.max(...mapData.points.map(point => point.coordinates.x));
+	const maxY = Math.max(...mapData.points.map(point => point.coordinates.y));
+
+	const transY = ymaxLimit / maxY
+	const transX = xmaxLimit / maxX
 
 	useEffect(() => {
 		const canvas = canvasRef.current;
@@ -37,59 +96,17 @@ const CanvasExample = ({ reload, setArr }) => {
 		const Circle = circleFun(ctx);
 		const Line = lineFun(ctx);
 		const Arrow = arrowFun(ctx);
-		const yminLimit = 50
-		const ymaxLimit = window.innerHeight / 2.3 - 10
-		const xminLimit = 10
-		const xmaxLimit = window.innerWidth / 2.3 - 10
-
-
-
-		const circleColor = "#000000";
-
-		const mapData = {
-			points:
-				[
-					{ coordinates: { x: 100, y: 160 }, color: circleColor, label: "a" },
-					{ coordinates: { x: 100, y: 140 }, color: circleColor, label: "b" },
-					{ coordinates: { x: 100, y: 120 }, color: circleColor, label: "c" },
-					{ coordinates: { x: 100, y: 60 }, color: circleColor, label: "d" },
-					{ coordinates: { x: 100, y: 20 }, color: circleColor, label: "e" },
-					{ coordinates: { x: 200, y: 160 }, color: circleColor, label: "f" },
-					{ coordinates: { x: 200, y: 140 }, color: circleColor, label: "g" },
-					{ coordinates: { x: 200, y: 60 }, color: circleColor, label: "h" },
-					{ coordinates: { x: 200, y: 20 }, color: circleColor, label: "i" },
-					{ coordinates: { x: 200, y: 0 }, color: circleColor, label: "j" },
-					{ coordinates: { x: 300, y: 160 }, color: circleColor, label: "k" },
-					{ coordinates: { x: 300, y: 140 }, color: circleColor, label: "l" },
-					{ coordinates: { x: 300, y: 120 }, color: circleColor, label: "m" },
-					{ coordinates: { x: 300, y: 60 }, color: circleColor, label: "n" },
-					{ coordinates: { x: 300, y: 20 }, color: circleColor, label: "o" },
-				],
-			edges: [
-				{ start: "a", end: "b" },
-				{ start: "b", end: "c" },
-				{ start: "b", end: "g" },
-				{ start: "f", end: "g" },
-				{ start: "k", end: "l" },
-				{ start: "g", end: "l" },
-				{ start: "l", end: "m" },
-				{ start: "g", end: "h" },
-				{ start: "d", end: "h" },
-				{ start: "n", end: "h" },
-				{ start: "i", end: "h" },
-				{ start: "i", end: "o" },
-				{ start: "i", end: "j" },
-				{ start: "i", end: "e" },
-			]
-
-		}
-
-		const maxX = Math.max(...mapData.points.map(point => point.coordinates.x));
-		const maxY = Math.max(...mapData.points.map(point => point.coordinates.y));
+		let yminLimit = 50
+		let ymaxLimit = window.innerHeight / 2.3 - 10
+		let xminLimit = 10
+		let xmaxLimit = window.innerWidth / 2.3 - 10
+		let circleColor = "#000000";
+		let maxX = Math.max(...mapData.points.map(point => point.coordinates.x));
+		let maxY = Math.max(...mapData.points.map(point => point.coordinates.y));
 
 		// Transformation
-		const transY = ymaxLimit / maxY
-		const transX = xmaxLimit / maxX
+		let transY = ymaxLimit / maxY
+		let transX = xmaxLimit / maxX
 
 		// Extraer los datos de `mapData`
 		const points = mapData.points;
@@ -170,17 +187,26 @@ const CanvasExample = ({ reload, setArr }) => {
 
 	//Mouse Down
 
-	const canvasMouseDown = (e) => {
+	const canvasMouseDown = (e, transX, transY) => {
+		if (!selectedArrow) return; // Si no hay flecha seleccionada, no hacer nada
 		const rect = canvasRef.current.getBoundingClientRect();
 		const mouseX = e.clientX - rect.left;
 		const mouseY = e.clientY - rect.top;
 
 		//Cheaking ... is 'Click' events occurs upon arrows or not?
-		arrows.forEach((x) => {
+		/* arrows.forEach((x) => {
 			if (x.click(mouseX, mouseY)) {
 				setDragDetails({ arrowName: x.name });
 			}
-		});
+		}); */
+
+		if (selectedArrow === "startArrow") {
+			setStart({ x: mouseX - xminLimit/transX, y: mouseY - yminLimit/transY});
+		} else if (selectedArrow === "endArrow") {
+			setEnd({ x: mouseX- xminLimit/transX, y: mouseY - yminLimit/transY});
+		}
+
+		setSelectedArrow(null);
 	};
 
 	const canvasMouseMove = (e) => {
@@ -200,7 +226,7 @@ const CanvasExample = ({ reload, setArr }) => {
 	};
 
 	const canvasMouseUp = (e) => {
-		setDragDetails({ arrowName: undefined });
+		//setDragDetails({ arrowName: undefined });
 		setStartLocation(null);
 		setFinishLoaction(null);
 
@@ -219,12 +245,20 @@ const CanvasExample = ({ reload, setArr }) => {
 
 	return (
 		<>
+			<div>
+				<button onClick={() => setSelectedArrow("startArrow")}>
+					Select start arrow
+				</button>
+				<button onClick={() => setSelectedArrow("endArrow")}>
+					Select finish arrow
+				</button>
+			</div>
 			<canvas
 				ref={canvasRef}
 				className={canvasStyle}
-				onMouseDown={canvasMouseDown}
+				onMouseDown={(e) => canvasMouseDown(e, transX, transY)}
 				onMouseUp={canvasMouseUp}
-				onMouseMove={canvasMouseMove}
+			//onMouseMove={canvasMouseMove}
 			/>
 		</>
 	);

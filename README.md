@@ -89,5 +89,3 @@ v Y+
 <li style="color: #fb005f; font-weight:500"><strong> Please use Chrome browser (Recomended)</strong> </li>
 </ul>
 
-
-## MIT License
