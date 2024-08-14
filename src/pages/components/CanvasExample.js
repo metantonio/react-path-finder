@@ -115,43 +115,17 @@ const CanvasExample = ({ reload, setArr }) => {
 
 		//Circle drawing
 
+		// Crear un array de líneas
+		let circleArray = points.map((point, index) => {
+			
+			// Crear una nueva instancia de Line con los puntos encontrados
+			return new Circle( point.coordinates.x * transX,point.coordinates.y * transY + yminLimit,point.color?point.color:circleColor, point.label.toLowerCase() );
+		});
 
-
-		const a = new Circle(100 * transX, 160 * transY + yminLimit, circleColor, "a");
-		const b = new Circle(100 * transX, 140 * transY + yminLimit, circleColor, "b");
-		const c = new Circle(100 * transX, 120 * transY + yminLimit, circleColor, "c");
-		const d = new Circle(200 * transX, 160 * transY + yminLimit, circleColor, "f");
-		const e = new Circle(200 * transX, 140 * transY + yminLimit, circleColor, "g");
-		const f = new Circle(300 * transX, 160 * transY + yminLimit, circleColor, "k");
-		const g = new Circle(300 * transX, 140 * transY + yminLimit, circleColor, "l");
-		const h = new Circle(100 * transX, 60 * transY + yminLimit, circleColor, "d");
-		const i = new Circle(300 * transX, 120 * transY + yminLimit, circleColor, "m");
-		const j = new Circle(200 * transX, 60 * transY + yminLimit, circleColor, "h");
-		const k = new Circle(300 * transX, 60 * transY + yminLimit, circleColor, "n");
-		const l = new Circle(200 * transX, 20 * transY + yminLimit, circleColor, "i");
-		const m = new Circle(300 * transX, 20 * transY + yminLimit, circleColor, "o");
-		const n = new Circle(100 * transX, 20 * transY + yminLimit, circleColor, "e");
-		const o = new Circle(200 * transX, 0 * transY + yminLimit, circleColor, "j");
 
 		//------------------------------------------------------------------------
 
-		const circles = [
-			a,
-			b,
-			c,
-			d,
-			e,
-			f,
-			g,
-			h,
-			i,
-			j,
-			k,
-			l,
-			m,
-			n,
-			o,
-		];
+		const circles = [...circleArray];
 
 		//drawing Lines
 		lines.forEach((x) => x.draw());
@@ -173,8 +147,6 @@ const CanvasExample = ({ reload, setArr }) => {
 
 		const Graph = dijkstraAlgo();
 		const graph = new Graph();
-
-		//add Vertex
 
 		// add vertex to the graph
 		points.forEach((point, index) => {
