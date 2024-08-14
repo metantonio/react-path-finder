@@ -40,41 +40,22 @@ const CanvasExample = ({ reload, setArr }) => {
 	const imgSrc = imageMap;
 	const [imgLoaded, setImgLoaded] = useState(false);
 	const [imgScale, setImgScale] = useState({ width: 0, height: 0, x: 0, y: 0 });
-
+	//if map width is larger than map height, add points to the coordinates to have more width than height
 	const mapData = {
 		points:
 			[
-				{ coordinates: { x: 100, y: 160 }, color: circleColor, label: "a" },
-				{ coordinates: { x: 100, y: 140 }, color: circleColor, label: "b" },
-				{ coordinates: { x: 100, y: 120 }, color: circleColor, label: "c" },
-				{ coordinates: { x: 100, y: 60 }, color: circleColor, label: "d" },
-				{ coordinates: { x: 100, y: 20 }, color: circleColor, label: "e" },
-				{ coordinates: { x: 200, y: 160 }, color: circleColor, label: "f" },
-				{ coordinates: { x: 200, y: 140 }, color: circleColor, label: "g" },
-				{ coordinates: { x: 200, y: 60 }, color: circleColor, label: "h" },
-				{ coordinates: { x: 200, y: 20 }, color: circleColor, label: "i" },
-				{ coordinates: { x: 200, y: 0 }, color: circleColor, label: "j" },
-				{ coordinates: { x: 300, y: 160 }, color: circleColor, label: "k" },
-				{ coordinates: { x: 300, y: 140 }, color: circleColor, label: "l" },
-				{ coordinates: { x: 300, y: 120 }, color: circleColor, label: "m" },
-				{ coordinates: { x: 300, y: 60 }, color: circleColor, label: "n" },
-				{ coordinates: { x: 300, y: 20 }, color: circleColor, label: "o" },
+				{ coordinates: { x: 0, y: 0 }, color: circleColor, label: "0" },
+				{ coordinates: { x: 1305, y: 0 }, color: circleColor, label: "1" },
+				{ coordinates: { x: 1305, y: 649 }, color: circleColor, label: "2" },
+				{ coordinates: { x: 0, y: 649 }, color: circleColor, label: "3" },
+				{ coordinates: { x: 350, y: 514 }, color: circleColor, label: "c" },
+				{ coordinates: { x: 369, y: 440 }, color: circleColor, label: "star" },
+				{ coordinates: { x: 383, y: 325 }, color: circleColor, label: "hall1" },
 			],
 		edges: [
-			{ start: "a", end: "b" },
-			{ start: "b", end: "c" },
-			{ start: "b", end: "g" },
-			{ start: "f", end: "g" },
-			{ start: "k", end: "l" },
-			{ start: "g", end: "l" },
-			{ start: "l", end: "m" },
-			{ start: "g", end: "h" },
-			{ start: "d", end: "h" },
-			{ start: "n", end: "h" },
-			{ start: "i", end: "h" },
-			{ start: "i", end: "o" },
-			{ start: "i", end: "j" },
-			{ start: "i", end: "e" },
+			{ start: "c", end: "star" },
+			{ start: "star", end: "hall1" },
+
 		]
 
 	}
@@ -84,8 +65,8 @@ const CanvasExample = ({ reload, setArr }) => {
 	const xminLimit = 10
 	const xmaxLimit = window.innerWidth / 2.3 - 10
 
-	const maxX = Math.max(...mapData.points.map(point => point.coordinates.x));
-	const maxY = Math.max(...mapData.points.map(point => point.coordinates.y));
+	let maxX = Math.max(...mapData.points.map(point => point.coordinates.x));
+	let maxY = Math.max(...mapData.points.map(point => point.coordinates.y));
 
 	const transY = ymaxLimit / maxY
 	const transX = xmaxLimit / maxX
@@ -102,7 +83,8 @@ const CanvasExample = ({ reload, setArr }) => {
 	useEffect(() => {
 		const canvas = canvasRef.current;
 		const canvasWidth = window.innerWidth;
-		const canvasHeight = window.innerHeight / 1.3;
+		const offsetY = 1.4
+		const canvasHeight = window.innerHeight / offsetY;
 		canvas.width = canvasWidth;
 		canvas.height = canvasHeight;
 		canvas.style.width = `${canvasWidth}px`;
@@ -127,8 +109,11 @@ const CanvasExample = ({ reload, setArr }) => {
 			}
 
 			// Calcular el offset para centrar la imagen en el canvas
-			const imgX = (canvasWidth - imgWidth) / 2;
-			const imgY = (canvasHeight - imgHeight) / 2;
+			//const imgX = (canvasWidth - imgWidth) / 2;
+			//const imgY = (canvasHeight - imgHeight) / 2;
+			const imgX = 0;
+			const imgY = 0;
+			console.log("ImgX, ImgY: ", imgX, imgY)
 
 			setImgScale({ width: imgWidth, height: imgHeight, x: imgX, y: imgY });
 
@@ -153,33 +138,26 @@ const CanvasExample = ({ reload, setArr }) => {
 			// Ajustar maxX y maxY según la escala
 			//const maxX = canvasWidth / scaleX;
 			//const maxY = canvasHeight / scaleY;
-			const maxX = imgWidth;
-			const maxY = imgHeight;
-
-			const imgTopLeftX = imgX;
-			const imgTopLeftY = imgY;
-			const imgBottomRightX = imgX + imgWidth;
-			const imgBottomRightY = imgY + imgHeight;
+			const maxX = (imgWidth) / originalMaxX;
+			const maxY = (imgHeight / offsetY) / originalMaxY;
 
 			// Extraer los datos de `mapData`
 			const points = mapData.points.map((point, index) => {
 				// Convertir las coordenadas del punto a escala de imagen
-				const scaledX = point.coordinates.x * scaleX;
-				const scaledY = point.coordinates.y * scaleY;
+				console.log("ratioX", imgWidth / originalMaxX)
+				const scaledX = point.coordinates.x*scaleX +imgX;
+				const scaledY = point.coordinates.y *scaleY+ imgY;
 
-				// Convertir las coordenadas a la posición en el canvas
-				const canvasX = imgTopLeftX + scaledX;
-				const canvasY = imgTopLeftY + scaledY;
+				// Convertir las coordenadas a la posición en el canvas				
+				const canvasX = scaledX;
+				const canvasY = scaledY;
 
-				// Asegurarse de que las coordenadas se mantengan dentro de los límites del canvas
-				const clampedX = Math.max(0, Math.min(canvasWidth, canvasX));
-				const clampedY = Math.max(0, Math.min(canvasHeight, canvasY));
 
 				return {
 					...point,
 					coordinates: {
-						x: clampedX,
-						y: clampedY
+						x: canvasX,
+						y: canvasY
 					}
 				};
 			});
@@ -222,7 +200,7 @@ const CanvasExample = ({ reload, setArr }) => {
 			let circleArray = points.map((point, index) => {
 
 				// Crear una nueva instancia de Line con los puntos encontrados
-				return new Circle(point.coordinates.x, point.coordinates.y, point.color || circleColor, point.label.toLowerCase());
+				return new Circle(point.coordinates.x, point.coordinates.y, point.color || circleColor, point.label.toLowerCase(), imgWidth, imgWidth);
 			});
 
 
@@ -282,7 +260,7 @@ const CanvasExample = ({ reload, setArr }) => {
 		const rect = canvasRef.current.getBoundingClientRect();
 		const mouseX = e.clientX - rect.left;
 		const mouseY = e.clientY - rect.top;
-
+		console.log("mouse data: \n", "e.clientX:", e.clientX, "\n", "e.clientY:", e.clientY, "\n", "mouseX, mouseY: ", mouseX, mouseY)
 		//Cheaking ... is 'Click' events occurs upon arrows or not?
 		/* arrows.forEach((x) => {
 			if (x.click(mouseX, mouseY)) {
@@ -294,9 +272,9 @@ const CanvasExample = ({ reload, setArr }) => {
 		const relativeY = (mouseY - imgScale.y) / imgScale.height;
 
 		if (selectedArrow === "startArrow") {
-			setStart({ x: mouseX - xminLimit / transX, y: mouseY - yminLimit / transY });
+			setStart({ x: mouseX - xminLimit, y: mouseY - yminLimit });
 		} else if (selectedArrow === "endArrow") {
-			setEnd({ x: mouseX - xminLimit / transX, y: mouseY - yminLimit / transY });
+			setEnd({ x: mouseX - xminLimit, y: mouseY - yminLimit });
 		}
 
 		/* if (selectedArrow === "startArrow") {

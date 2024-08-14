@@ -18,11 +18,11 @@ function line(ctx) {
 		}
 
 		scaleX(xVal) {
-			return xVal * (window.innerWidth / 1550);
+			return xVal ;
 		}
 
 		scaleY(yVal) {
-			return yVal * (window.innerHeight / 722);
+			return yVal ;
 		}
 
 		setColor(colorName) {

@@ -1,4 +1,4 @@
-function circle(ctx) {
+function circle(ctx, scaleXvalue, scaleYvalue) {
 	class Circle {
 		radius = window.innerHeight / 80;
 		nodeValue = null;
@@ -33,11 +33,11 @@ function circle(ctx) {
 		// scaleX and scaleY is calculate value X and Y posprosotinal of the canvas height and width
 		// this is besically calculating X and Y value corrosponding the canvas height and width
 		scaleX(xVal) {
-			return xVal * (window.innerWidth / 1550);
+			return xVal ;
 		}
 
 		scaleY(yVal) {
-			return yVal * (window.innerHeight / 722);
+			return yVal ;
 		}
 
 		setNodeValue(val) {
