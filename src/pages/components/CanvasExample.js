@@ -6,13 +6,6 @@ import arrowFun from "./utils/arrowForCanvas";
 import dijkstraAlgo from "./utils/algorithms/DijkstraAlgo";
 import imageMap from "../../images/hardrock-map.jpeg"
 
-/* const useStyle = makeStyles({
-	canvasStyle: ({ arrowName }) => ({
-		marginTop: "10px",
-		cursor: arrowName ? "grabbing" : "default",
-	}),
-}); */
-
 const useStyle = makeStyles({
 	canvasStyle: ({ arrowName }) => ({
 		marginTop: "10px",
@@ -261,7 +254,7 @@ const CanvasExample = ({ reload, setArr }) => {
 
 			elementArr(circles);
 
-			//lines.forEach((x) => console.log(x.weight()));
+
 
 			const Graph = dijkstraAlgo();
 			const graph = new Graph();
@@ -295,7 +288,8 @@ const CanvasExample = ({ reload, setArr }) => {
 	const canvasMouseDown = (e, transX, transY) => {
 		if (!selectedArrow) return; // Si no hay flecha seleccionada, no hacer nada
 		const rect = canvasRef.current.getBoundingClientRect();
-		const mouseX = (e.clientX - rect.left);
+		console.log("rect:",rect)
+		const mouseX = e.clientX - rect.left;
 		const mouseY = e.clientY - rect.top;
 		console.log("mouse data: \n", "e.clientX:", e.clientX, "\n", "e.clientY:", e.clientY, "\n", "mouseX, mouseY: ", mouseX, mouseY)
 		//Cheaking ... is 'Click' events occurs upon arrows or not?
@@ -320,14 +314,7 @@ const CanvasExample = ({ reload, setArr }) => {
 			setStart({ x: mouseX, y: mouseY });
 		} else if (selectedArrow === "endArrow") {
 			setEnd({ x: mouseX, y: mouseY });
-		}
-
-		/* if (selectedArrow === "startArrow") {
-			setStart({ x: relativeX * 200, y: relativeY * 200 });
-		} else if (selectedArrow === "endArrow") {
-			setEnd({ x: relativeX * 200, y: relativeY * 200 });
-		} */
-
+		}				
 		setSelectedArrow(null);
 	};
 
