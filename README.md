@@ -67,6 +67,10 @@ Algorithm visualizer is a react base web app where we can visualize and play wit
 
 </div>
 
+<p>
+ Use CanvasExample.js to modify the mapData. I've change the way how the map for nodes and edges is built.
+</p>
+
 <h3> Note : </h3>
 <ul>
 <li style="color: #fb005f; font-weight:500"> <strong> It is not mobile responsive </strong></li>
