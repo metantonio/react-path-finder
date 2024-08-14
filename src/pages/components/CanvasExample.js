@@ -4,6 +4,7 @@ import circleFun from "./utils/circleForCanvas";
 import lineFun from "./utils/lineForCanvas";
 import arrowFun from "./utils/arrowForCanvas";
 import dijkstraAlgo from "./utils/algorithms/DijkstraAlgo";
+import imageMap from "../../images/hardrock-map.jpeg"
 
 /* const useStyle = makeStyles({
 	canvasStyle: ({ arrowName }) => ({
@@ -35,6 +36,10 @@ const CanvasExample = ({ reload, setArr }) => {
 	//const { canvasStyle } = useStyle(dragDeatils);
 	const { canvasStyle } = useStyle({ arrowName: selectedArrow });
 	const circleColor = "#000000";
+	const imgRef = useRef(null);
+	const imgSrc = imageMap;
+	const [imgLoaded, setImgLoaded] = useState(false);
+	const [imgScale, setImgScale] = useState({ width: 0, height: 0, x: 0, y: 0 });
 
 	const mapData = {
 		points:
@@ -86,101 +91,186 @@ const CanvasExample = ({ reload, setArr }) => {
 	const transX = xmaxLimit / maxX
 
 	useEffect(() => {
+		const img = new Image();
+		img.src = imgSrc;
+		img.onload = () => {
+			imgRef.current = img;
+			setImgLoaded(true);
+		};
+	}, [imgSrc]);
+
+	useEffect(() => {
 		const canvas = canvasRef.current;
-		canvas.width = window.innerWidth;
-		canvas.height = window.innerHeight / 1.3;
-		canvas.style.width = `${window.innerWidth}px`;
-		canvas.style.height = `${window.innerHeight / 1.3}px`;
+		const canvasWidth = window.innerWidth;
+		const canvasHeight = window.innerHeight / 1.3;
+		canvas.width = canvasWidth;
+		canvas.height = canvasHeight;
+		canvas.style.width = `${canvasWidth}px`;
+		canvas.style.height = `${canvasHeight}px`;
 		canvas.style.background = "#32567a";
 		const ctx = canvas.getContext("2d");
-		const Circle = circleFun(ctx);
-		const Line = lineFun(ctx);
-		const Arrow = arrowFun(ctx);
-		let yminLimit = 50
-		let ymaxLimit = window.innerHeight / 2.3 - 10
-		let xminLimit = 10
-		let xmaxLimit = window.innerWidth / 2.3 - 10
-		let circleColor = "#000000";
-		let maxX = Math.max(...mapData.points.map(point => point.coordinates.x));
-		let maxY = Math.max(...mapData.points.map(point => point.coordinates.y));
 
-		// Transformation
-		let transY = ymaxLimit / maxY
-		let transX = xmaxLimit / maxX
+		if (imgLoaded) {
+			const canvasAspectRatio = canvasWidth / canvasHeight;
+			const imgAspectRatio = imgRef.current.width / imgRef.current.height;
 
-		// Extraer los datos de `mapData`
-		const points = mapData.points;
-		const edges = mapData.edges;
+			let imgWidth, imgHeight;
 
-		// Crear un array de líneas
-		let linesArray = edges.map(edge => {
-			// Encontrar el punto de inicio y el punto final en el array de puntos
-			const startPoint = points.find(point => point.label === edge.start).coordinates;
-			const endPoint = points.find(point => point.label === edge.end).coordinates;
+			if (imgAspectRatio > canvasAspectRatio) {
+				// Imagen más ancha que el canvas, ajusta el ancho
+				imgWidth = canvasWidth;
+				imgHeight = canvasWidth / imgAspectRatio;
+			} else {
+				// Imagen más alta que el canvas, ajusta la altura
+				imgWidth = canvasHeight * imgAspectRatio;
+				imgHeight = canvasHeight;
+			}
 
-			// Crear una nueva instancia de Line con los puntos encontrados
-			return new Line({ x: startPoint.x * transX, y: startPoint.y * transY + yminLimit }, { x: endPoint.x * transX, y: endPoint.y * transY + yminLimit });
-		});
+			// Calcular el offset para centrar la imagen en el canvas
+			const imgX = (canvasWidth - imgWidth) / 2;
+			const imgY = (canvasHeight - imgHeight) / 2;
 
-		console.log(linesArray);
+			setImgScale({ width: imgWidth, height: imgHeight, x: imgX, y: imgY });
 
-		//------------------------------------------------------------------
+			// Dibujar la imagen
+			ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+			ctx.globalAlpha = 0.5; // Transparencia de la imagen
+			ctx.drawImage(imgRef.current, imgX, imgY, imgWidth, imgHeight);
+			ctx.globalAlpha = 1.0; // Restaurar opacidad para otros elementos
 
-		const lines = [
-			...linesArray
-		];
+			// Obtener el máximo X e Y de los puntos
+			const originalMaxX = Math.max(...mapData.points.map(point => point.coordinates.x));
+			const originalMaxY = Math.max(...mapData.points.map(point => point.coordinates.y));
 
-		//Circle drawing
-		let circleArray = points.map((point, index) => {
+			// Calcular la escala en el canvas
+			const scaleX = imgWidth / originalMaxX;
+			const scaleY = imgHeight / originalMaxY;
 
-			// Crear una nueva instancia de Line con los puntos encontrados
-			return new Circle(point.coordinates.x * transX, point.coordinates.y * transY + yminLimit, point.color ? point.color : circleColor, point.label.toLowerCase());
-		});
+			// Ajustar maxX y maxY según la escala real del canvas
+			const adjustedMaxX = imgWidth / (imgWidth / originalMaxX);
+			const adjustedMaxY = imgHeight / (imgHeight / originalMaxY);
+
+			// Ajustar maxX y maxY según la escala
+			//const maxX = canvasWidth / scaleX;
+			//const maxY = canvasHeight / scaleY;
+			const maxX = imgWidth;
+			const maxY = imgHeight;
+
+			const imgTopLeftX = imgX;
+			const imgTopLeftY = imgY;
+			const imgBottomRightX = imgX + imgWidth;
+			const imgBottomRightY = imgY + imgHeight;
+
+			// Extraer los datos de `mapData`
+			const points = mapData.points.map((point, index) => {
+				// Convertir las coordenadas del punto a escala de imagen
+				const scaledX = point.coordinates.x * scaleX;
+				const scaledY = point.coordinates.y * scaleY;
+
+				// Convertir las coordenadas a la posición en el canvas
+				const canvasX = imgTopLeftX + scaledX;
+				const canvasY = imgTopLeftY + scaledY;
+
+				// Asegurarse de que las coordenadas se mantengan dentro de los límites del canvas
+				const clampedX = Math.max(0, Math.min(canvasWidth, canvasX));
+				const clampedY = Math.max(0, Math.min(canvasHeight, canvasY));
+
+				return {
+					...point,
+					coordinates: {
+						x: clampedX,
+						y: clampedY
+					}
+				};
+			});
+			const edges = mapData.edges;
+			const Circle = circleFun(ctx);
+			const Line = lineFun(ctx);
+			const Arrow = arrowFun(ctx);
+			let yminLimit = 50
+			let ymaxLimit = window.innerHeight / 2.3 - 10
+			let xminLimit = 10
+			let xmaxLimit = window.innerWidth / 2.3 - 10
+			let circleColor = "#000000";
 
 
-		//------------------------------------------------------------------------
-
-		const circles = [...circleArray];
-
-		//drawing Lines
-		lines.forEach((x) => x.draw());
-		//drawing the circle
-		circles.forEach((x) => x.draw());
-
-		//Creating Arrow Objects
-		let fisrtArrow = new Arrow(16, "#16fb04", "startArrow");
-		let lastArrow = new Arrow(20, "red", "endArrow");
-
-		fisrtArrow.move(start.x, start.y);
-		lastArrow.move(end.x, end.y);
-
-		setArrows([fisrtArrow, lastArrow]);
-
-		elementArr(circles);
-
-		//lines.forEach((x) => console.log(x.weight()));
-
-		const Graph = dijkstraAlgo();
-		const graph = new Graph();
-
-		// add vertex to the graph
-		points.forEach((point, index) => {
-			graph.addVartex(point.label.toUpperCase());
-		});
-
-		// add each edge to the graph
-		edges.forEach((edge, index) => {
-			graph.addEdge(edge.start.toLocaleUpperCase(), edge.end.toLocaleUpperCase(), linesArray[index]);
-		});
+			// Transformation
+			let transY = ymaxLimit / maxY
+			let transX = xmaxLimit / maxX
 
 
-		const findArr = graph.dijkstra(
-			startLoctionForDijkstra,
-			finishLoctionForDijkstra
-		);
-		// Saving the result arr
-		setResultArr(findArr);
-	}, [reload, start, end, startLoctionForDijkstra, finishLoctionForDijkstra]);
+
+			// Crear un array de líneas
+			let linesArray = edges.map(edge => {
+				// Encontrar el punto de inicio y el punto final en el array de puntos
+				const startPoint = points.find(point => point.label === edge.start).coordinates;
+				const endPoint = points.find(point => point.label === edge.end).coordinates;
+
+				// Crear una nueva instancia de Line con los puntos encontrados
+				return new Line({ x: startPoint.x, y: startPoint.y }, { x: endPoint.x, y: endPoint.y });
+			});
+
+			console.log(linesArray);
+
+			//------------------------------------------------------------------
+
+			const lines = [
+				...linesArray
+			];
+
+			//Circle drawing
+			let circleArray = points.map((point, index) => {
+
+				// Crear una nueva instancia de Line con los puntos encontrados
+				return new Circle(point.coordinates.x, point.coordinates.y, point.color || circleColor, point.label.toLowerCase());
+			});
+
+
+			//------------------------------------------------------------------------
+
+			const circles = [...circleArray];
+
+			//drawing Lines
+			lines.forEach((x) => x.draw());
+			//drawing the circle
+			circles.forEach((x) => x.draw());
+
+			//Creating Arrow Objects
+			let fisrtArrow = new Arrow(16, "#16fb04", "startArrow");
+			let lastArrow = new Arrow(20, "red", "endArrow");
+
+			fisrtArrow.move(start.x, start.y);
+			lastArrow.move(end.x, end.y);
+
+			setArrows([fisrtArrow, lastArrow]);
+
+			elementArr(circles);
+
+			//lines.forEach((x) => console.log(x.weight()));
+
+			const Graph = dijkstraAlgo();
+			const graph = new Graph();
+
+			// add vertex to the graph
+			points.forEach((point, index) => {
+				graph.addVartex(point.label.toUpperCase());
+			});
+
+			// add each edge to the graph
+			edges.forEach((edge, index) => {
+				graph.addEdge(edge.start.toLocaleUpperCase(), edge.end.toLocaleUpperCase(), linesArray[index]);
+			});
+
+
+			const findArr = graph.dijkstra(
+				startLoctionForDijkstra,
+				finishLoctionForDijkstra
+			);
+			// Saving the result arr
+			setResultArr(findArr);
+		}
+
+	}, [reload, start, end, startLoctionForDijkstra, finishLoctionForDijkstra, imgLoaded]);
 
 	//passing the result arr in parent
 	setArr(resultArr);
@@ -200,11 +290,20 @@ const CanvasExample = ({ reload, setArr }) => {
 			}
 		}); */
 
+		const relativeX = (mouseX - imgScale.x) / imgScale.width;
+		const relativeY = (mouseY - imgScale.y) / imgScale.height;
+
 		if (selectedArrow === "startArrow") {
-			setStart({ x: mouseX - xminLimit/transX, y: mouseY - yminLimit/transY});
+			setStart({ x: mouseX - xminLimit / transX, y: mouseY - yminLimit / transY });
 		} else if (selectedArrow === "endArrow") {
-			setEnd({ x: mouseX- xminLimit/transX, y: mouseY - yminLimit/transY});
+			setEnd({ x: mouseX - xminLimit / transX, y: mouseY - yminLimit / transY });
 		}
+
+		/* if (selectedArrow === "startArrow") {
+			setStart({ x: relativeX * 200, y: relativeY * 200 });
+		} else if (selectedArrow === "endArrow") {
+			setEnd({ x: relativeX * 200, y: relativeY * 200 });
+		} */
 
 		setSelectedArrow(null);
 	};
