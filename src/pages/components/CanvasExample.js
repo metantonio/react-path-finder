@@ -109,10 +109,10 @@ const CanvasExample = ({ reload, setArr }) => {
 			}
 
 			// Calcular el offset para centrar la imagen en el canvas
-			//const imgX = (canvasWidth - imgWidth) / 2;
-			//const imgY = (canvasHeight - imgHeight) / 2;
-			const imgX = 0;
-			const imgY = 0;
+			const imgX = (canvasWidth - imgWidth) / 2;
+			const imgY = (canvasHeight - imgHeight) / 2;
+			//const imgX = 0;
+			//const imgY = 0;
 			console.log("ImgX, ImgY: ", imgX, imgY)
 
 			setImgScale({ width: imgWidth, height: imgHeight, x: imgX, y: imgY });
