@@ -182,8 +182,8 @@ const CanvasExample = ({ reload, setArr }) => {
 			const points = mapData.points.map((point, index) => {
 				// Convertir las coordenadas del punto a escala de imagen
 				console.log("ratioX", imgWidth / originalMaxX)
-				const scaledX = point.coordinates.x*scaleX +imgX;
-				const scaledY = point.coordinates.y *scaleY+ imgY;
+				const scaledX = point.coordinates.x * scaleX + imgX;
+				const scaledY = point.coordinates.y * scaleY + imgY;
 
 				// Convertir las coordenadas a la posición en el canvas				
 				const canvasX = scaledX;
@@ -295,7 +295,7 @@ const CanvasExample = ({ reload, setArr }) => {
 	const canvasMouseDown = (e, transX, transY) => {
 		if (!selectedArrow) return; // Si no hay flecha seleccionada, no hacer nada
 		const rect = canvasRef.current.getBoundingClientRect();
-		const mouseX = e.clientX - rect.left;
+		const mouseX = (e.clientX - rect.left);
 		const mouseY = e.clientY - rect.top;
 		console.log("mouse data: \n", "e.clientX:", e.clientX, "\n", "e.clientY:", e.clientY, "\n", "mouseX, mouseY: ", mouseX, mouseY)
 		//Cheaking ... is 'Click' events occurs upon arrows or not?
@@ -308,10 +308,18 @@ const CanvasExample = ({ reload, setArr }) => {
 		const relativeX = (mouseX - imgScale.x) / imgScale.width;
 		const relativeY = (mouseY - imgScale.y) / imgScale.height;
 
+		const originalMaxX = Math.max(...mapData.points.map(point => point.coordinates.x));
+		const originalMaxY = Math.max(...mapData.points.map(point => point.coordinates.y));
+
+		// Calcular las coordenadas ajustadas para la flecha
+		const adjustedX = mouseX * imgScale.width/originalMaxX; // Si originalMaxX es el tamaño original de la imagen
+		const adjustedY = mouseY * imgScale.height/originalMaxY; // Si originalMaxY es el tamaño original de la imagen
+
+
 		if (selectedArrow === "startArrow") {
 			setStart({ x: mouseX, y: mouseY });
 		} else if (selectedArrow === "endArrow") {
-			setEnd({ x: mouseX , y: mouseY });
+			setEnd({ x: mouseX, y: mouseY });
 		}
 
 		/* if (selectedArrow === "startArrow") {
