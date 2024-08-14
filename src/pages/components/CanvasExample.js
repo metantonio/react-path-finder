@@ -42,13 +42,7 @@ const CanvasExample = ({ reload, setArr }) => {
 		const xminLimit = 10
 		const xmaxLimit = window.innerWidth / 2.3 - 10
 
-		//User should set the higher values of X and Y coordinates
-		const maxX = 300
-		const maxY = 160
 
-		// Transformation
-		const transY = ymaxLimit / maxY
-		const transX = xmaxLimit / maxX
 
 		const circleColor = "#000000";
 
@@ -90,6 +84,12 @@ const CanvasExample = ({ reload, setArr }) => {
 
 		}
 
+		const maxX = Math.max(...mapData.points.map(point => point.coordinates.x));
+		const maxY = Math.max(...mapData.points.map(point => point.coordinates.y));
+
+		// Transformation
+		const transY = ymaxLimit / maxY
+		const transX = xmaxLimit / maxX
 
 		// Extraer los datos de `mapData`
 		const points = mapData.points;
@@ -117,9 +117,9 @@ const CanvasExample = ({ reload, setArr }) => {
 
 		// Crear un array de líneas
 		let circleArray = points.map((point, index) => {
-			
+
 			// Crear una nueva instancia de Line con los puntos encontrados
-			return new Circle( point.coordinates.x * transX,point.coordinates.y * transY + yminLimit,point.color?point.color:circleColor, point.label.toLowerCase() );
+			return new Circle(point.coordinates.x * transX, point.coordinates.y * transY + yminLimit, point.color ? point.color : circleColor, point.label.toLowerCase());
 		});
 
 
@@ -152,13 +152,13 @@ const CanvasExample = ({ reload, setArr }) => {
 		points.forEach((point, index) => {
 			graph.addVartex(point.label.toUpperCase());
 		});
-		
+
 		// add each edge to the graph
 		edges.forEach((edge, index) => {
 			graph.addEdge(edge.start.toLocaleUpperCase(), edge.end.toLocaleUpperCase(), linesArray[index]);
 		});
 
-	
+
 		const findArr = graph.dijkstra(
 			startLoctionForDijkstra,
 			finishLoctionForDijkstra
