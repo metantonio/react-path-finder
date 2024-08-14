@@ -47,110 +47,92 @@ const CanvasExample = ({ reload, setArr }) => {
 		const maxY = 160
 
 		// Transformation
-		const transY = ymaxLimit/maxY
-		const transX = xmaxLimit/maxX
+		const transY = ymaxLimit / maxY
+		const transX = xmaxLimit / maxX
 
 		const circleColor = "#000000";
 
 		const mapData = {
-			points: 
+			points:
 				[
-					{coordinates:{x: 100, y: 160}, color: circleColor, label:"a"},
-					{coordinates:{x: 100, y: 140}, color: circleColor, label:"b"},
-					{coordinates:{x: 100, y: 120}, color: circleColor, label:"c"},
-					{coordinates:{x: 100, y: 60}, color: circleColor, label:"d"},
-					{coordinates:{x: 100, y: 20}, color: circleColor, label:"e"},
-					{coordinates:{x: 200, y: 160}, color: circleColor, label:"f"},
-					{coordinates:{x: 200, y: 140}, color: circleColor, label:"g"},
-					{coordinates:{x: 200, y: 60}, color: circleColor, label:"h"},
-					{coordinates:{x: 200, y: 20}, color: circleColor, label:"i"},
-					{coordinates:{x: 200, y: 0}, color: circleColor, label:"j"},
-					{coordinates:{x: 300, y: 160}, color: circleColor, label:"k"},
-					{coordinates:{x: 300, y: 140}, color: circleColor, label:"l"},
-					{coordinates:{x: 300, y: 120}, color: circleColor, label:"m"},
-					{coordinates:{x: 300, y: 60}, color: circleColor, label:"n"},
-					{coordinates:{x: 300, y: 20}, color: circleColor, label:"o"},
+					{ coordinates: { x: 100, y: 160 }, color: circleColor, label: "a" },
+					{ coordinates: { x: 100, y: 140 }, color: circleColor, label: "b" },
+					{ coordinates: { x: 100, y: 120 }, color: circleColor, label: "c" },
+					{ coordinates: { x: 100, y: 60 }, color: circleColor, label: "d" },
+					{ coordinates: { x: 100, y: 20 }, color: circleColor, label: "e" },
+					{ coordinates: { x: 200, y: 160 }, color: circleColor, label: "f" },
+					{ coordinates: { x: 200, y: 140 }, color: circleColor, label: "g" },
+					{ coordinates: { x: 200, y: 60 }, color: circleColor, label: "h" },
+					{ coordinates: { x: 200, y: 20 }, color: circleColor, label: "i" },
+					{ coordinates: { x: 200, y: 0 }, color: circleColor, label: "j" },
+					{ coordinates: { x: 300, y: 160 }, color: circleColor, label: "k" },
+					{ coordinates: { x: 300, y: 140 }, color: circleColor, label: "l" },
+					{ coordinates: { x: 300, y: 120 }, color: circleColor, label: "m" },
+					{ coordinates: { x: 300, y: 60 }, color: circleColor, label: "n" },
+					{ coordinates: { x: 300, y: 20 }, color: circleColor, label: "o" },
 				],
 			edges: [
-				{start:"a", end:"b"},
-				{start:"b", end:"c"},
-				{start:"b", end:"g"},
-				{start:"f", end:"g"},
-				{start:"k", end:"l"},
-				{start:"g", end:"l"},
-				{start:"l", end:"m"},
-				{start:"g", end:"h"},
-				{start:"d", end:"h"},
-				{start:"n", end:"h"},
-				{start:"i", end:"h"},
-				{start:"i", end:"o"},
-				{start:"i", end:"j"},
-				{start:"i", end:"e"},
+				{ start: "a", end: "b" },
+				{ start: "b", end: "c" },
+				{ start: "b", end: "g" },
+				{ start: "f", end: "g" },
+				{ start: "k", end: "l" },
+				{ start: "g", end: "l" },
+				{ start: "l", end: "m" },
+				{ start: "g", end: "h" },
+				{ start: "d", end: "h" },
+				{ start: "n", end: "h" },
+				{ start: "i", end: "h" },
+				{ start: "i", end: "o" },
+				{ start: "i", end: "j" },
+				{ start: "i", end: "e" },
 			]
-		
+
 		}
 
-			  
-		  // Extraer los datos de `mapData`
-		  const points = mapData.points;
-		  const edges = mapData.edges;
-		  
-		  // Crear un array de líneas
-		  let linesArray = edges.map(edge => {
+
+		// Extraer los datos de `mapData`
+		const points = mapData.points;
+		const edges = mapData.edges;
+
+		// Crear un array de líneas
+		let linesArray = edges.map(edge => {
 			// Encontrar el punto de inicio y el punto final en el array de puntos
 			const startPoint = points.find(point => point.label === edge.start).coordinates;
 			const endPoint = points.find(point => point.label === edge.end).coordinates;
-			
+
 			// Crear una nueva instancia de Line con los puntos encontrados
-			return new Line({ x: startPoint.x, y: startPoint.y }, { x: endPoint.x, y: endPoint.y });
-		  });
+			return new Line({ x: startPoint.x * transX, y: startPoint.y * transY + yminLimit }, { x: endPoint.x * transX, y: endPoint.y * transY + yminLimit });
+		});
 
 		console.log(linesArray);
 
-		//Lines
-		const drawLines = [
-			new Line({ x: 100*transX, y: 160*transY+yminLimit }, { x: 100*transX, y: 140*transY+yminLimit }), //1 to 4
-			new Line({ x: 100*transX, y: 140*transY+yminLimit }, { x: 100*transX, y: 120*transY+yminLimit }), //4 to 8
-			new Line({ x: 100*transX, y: 140*transY+yminLimit }, { x: 200*transX, y: 140*transY+yminLimit }), //4 to 5
-			new Line({ x: 200*transX, y: 160*transY+yminLimit }, { x: 200*transX, y: 140*transY+yminLimit }), //2 to 5
-			new Line({ x: 300*transX, y: 160*transY+yminLimit }, { x: 300*transX, y: 140*transY+yminLimit }), //3 to 6
-			new Line({ x: 200*transX, y: 140*transY+yminLimit }, { x: 300*transX, y: 140*transY+yminLimit }), //5 to 6
-			new Line({ x: 300*transX, y: 120*transY+yminLimit }, { x: 300*transX, y: 140*transY+yminLimit }), //7 to 6
-			new Line({ x: 200*transX, y: 140*transY+yminLimit }, { x: 200*transX, y: 60*transY+yminLimit }), //5 to 10
-			new Line({ x: 100*transX, y: 60*transY+yminLimit }, { x: 200*transX, y: 60*transY+yminLimit }), //9 to 10
-			new Line({ x: 300*transX, y: 60*transY+yminLimit }, { x: 200*transX, y: 60*transY+yminLimit }), //11 to 10
-			new Line({ x: 200*transX, y: 20*transY+yminLimit }, { x: 200*transX, y: 60*transY+yminLimit }), //12 to 10
-			new Line({ x: 200*transX, y: 20*transY+yminLimit }, { x: 300*transX, y: 20*transY+yminLimit }), //12 to 13
-			new Line({ x: 200*transX, y: 20*transY+yminLimit }, { x: 200*transX, y: 0*transY+yminLimit }), //12 to 15
-			new Line({ x: 200*transX, y: 20*transY+yminLimit }, { x: 100*transX, y: 20*transY+yminLimit }), //12 to 14
-		]
-		
 		//------------------------------------------------------------------
 
 		const lines = [
-			...drawLines
+			...linesArray
 		];
 
 		//Circle drawing
 
-		
 
-		const a = new Circle(100*transX, 160*transY+yminLimit, circleColor, "a");
-		const b = new Circle(100*transX, 140*transY+yminLimit, circleColor, "b");
-		const c = new Circle(100*transX, 120*transY+yminLimit, circleColor, "c");
-		const d = new Circle(200*transX, 160*transY+yminLimit, circleColor, "f");
-		const e = new Circle(200*transX, 140*transY+yminLimit, circleColor, "g");
-		const f = new Circle(300*transX, 160*transY+yminLimit, circleColor, "k");
-		const g = new Circle(300*transX, 140*transY+yminLimit, circleColor, "l");
-		const h = new Circle(100*transX, 60*transY+yminLimit, circleColor, "d");
-		const i = new Circle(300*transX, 120*transY+yminLimit, circleColor, "m");
-		const j = new Circle(200*transX, 60*transY+yminLimit, circleColor, "h");
-		const k = new Circle(300*transX, 60*transY+yminLimit, circleColor, "n");
-		const l = new Circle(200*transX, 20*transY+yminLimit, circleColor, "i");
-		const m = new Circle(300*transX, 20*transY+yminLimit, circleColor, "o");
-		const n = new Circle(100*transX, 20*transY+yminLimit, circleColor, "e");
-		const o = new Circle(200*transX, 0*transY+yminLimit, circleColor, "j");
-		
+
+		const a = new Circle(100 * transX, 160 * transY + yminLimit, circleColor, "a");
+		const b = new Circle(100 * transX, 140 * transY + yminLimit, circleColor, "b");
+		const c = new Circle(100 * transX, 120 * transY + yminLimit, circleColor, "c");
+		const d = new Circle(200 * transX, 160 * transY + yminLimit, circleColor, "f");
+		const e = new Circle(200 * transX, 140 * transY + yminLimit, circleColor, "g");
+		const f = new Circle(300 * transX, 160 * transY + yminLimit, circleColor, "k");
+		const g = new Circle(300 * transX, 140 * transY + yminLimit, circleColor, "l");
+		const h = new Circle(100 * transX, 60 * transY + yminLimit, circleColor, "d");
+		const i = new Circle(300 * transX, 120 * transY + yminLimit, circleColor, "m");
+		const j = new Circle(200 * transX, 60 * transY + yminLimit, circleColor, "h");
+		const k = new Circle(300 * transX, 60 * transY + yminLimit, circleColor, "n");
+		const l = new Circle(200 * transX, 20 * transY + yminLimit, circleColor, "i");
+		const m = new Circle(300 * transX, 20 * transY + yminLimit, circleColor, "o");
+		const n = new Circle(100 * transX, 20 * transY + yminLimit, circleColor, "e");
+		const o = new Circle(200 * transX, 0 * transY + yminLimit, circleColor, "j");
+
 		//------------------------------------------------------------------------
 
 		const circles = [
@@ -210,13 +192,13 @@ const CanvasExample = ({ reload, setArr }) => {
 		graph.addVartex("N");
 		graph.addVartex("O");
 
-		// add Edge
-		/* for(let i=0; i< drawLines.length; i++){
-			graph.addEdge(`A${i}`, `B${i}`, drawLines[i]);
-		} */
 		
+		// add each edge to the graph
+		edges.forEach((edge, index) => {
+			graph.addEdge(edge.start.toLocaleUpperCase(), edge.end.toLocaleUpperCase(), linesArray[index]);
+		});
 
-		graph.addEdge(`A`, `B`, drawLines[0]);
+		/* graph.addEdge(`A`, `B`, drawLines[0]);
 		graph.addEdge(`B`, `C`, drawLines[1]);
 		graph.addEdge(`B`, `G`, drawLines[2]);
 		graph.addEdge(`F`, `G`, drawLines[3]);
@@ -229,8 +211,8 @@ const CanvasExample = ({ reload, setArr }) => {
 		graph.addEdge(`H`, `I`, drawLines[10]);
 		graph.addEdge(`I`, `O`, drawLines[11]);
 		graph.addEdge(`I`, `J`, drawLines[12]);
-		graph.addEdge(`E`, `I`, drawLines[13]);
-		
+		graph.addEdge(`E`, `I`, drawLines[13]); */
+
 
 		const findArr = graph.dijkstra(
 			startLoctionForDijkstra,
