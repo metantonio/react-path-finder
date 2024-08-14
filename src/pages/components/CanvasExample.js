@@ -50,6 +50,63 @@ const CanvasExample = ({ reload, setArr }) => {
 		const transY = ymaxLimit/maxY
 		const transX = xmaxLimit/maxX
 
+		const circleColor = "#000000";
+
+		const mapData = {
+			points: 
+				[
+					{coordinates:{x: 100, y: 160}, color: circleColor, label:"a"},
+					{coordinates:{x: 100, y: 140}, color: circleColor, label:"b"},
+					{coordinates:{x: 100, y: 120}, color: circleColor, label:"c"},
+					{coordinates:{x: 100, y: 60}, color: circleColor, label:"d"},
+					{coordinates:{x: 100, y: 20}, color: circleColor, label:"e"},
+					{coordinates:{x: 200, y: 160}, color: circleColor, label:"f"},
+					{coordinates:{x: 200, y: 140}, color: circleColor, label:"g"},
+					{coordinates:{x: 200, y: 60}, color: circleColor, label:"h"},
+					{coordinates:{x: 200, y: 20}, color: circleColor, label:"i"},
+					{coordinates:{x: 200, y: 0}, color: circleColor, label:"j"},
+					{coordinates:{x: 300, y: 160}, color: circleColor, label:"k"},
+					{coordinates:{x: 300, y: 140}, color: circleColor, label:"l"},
+					{coordinates:{x: 300, y: 120}, color: circleColor, label:"m"},
+					{coordinates:{x: 300, y: 60}, color: circleColor, label:"n"},
+					{coordinates:{x: 300, y: 20}, color: circleColor, label:"o"},
+				],
+			edges: [
+				{start:"a", end:"b"},
+				{start:"b", end:"c"},
+				{start:"b", end:"g"},
+				{start:"f", end:"g"},
+				{start:"k", end:"l"},
+				{start:"g", end:"l"},
+				{start:"l", end:"m"},
+				{start:"g", end:"h"},
+				{start:"d", end:"h"},
+				{start:"n", end:"h"},
+				{start:"i", end:"h"},
+				{start:"i", end:"o"},
+				{start:"i", end:"j"},
+				{start:"i", end:"e"},
+			]
+		
+		}
+
+			  
+		  // Extraer los datos de `mapData`
+		  const points = mapData.points;
+		  const edges = mapData.edges;
+		  
+		  // Crear un array de líneas
+		  let linesArray = edges.map(edge => {
+			// Encontrar el punto de inicio y el punto final en el array de puntos
+			const startPoint = points.find(point => point.label === edge.start).coordinates;
+			const endPoint = points.find(point => point.label === edge.end).coordinates;
+			
+			// Crear una nueva instancia de Line con los puntos encontrados
+			return new Line({ x: startPoint.x, y: startPoint.y }, { x: endPoint.x, y: endPoint.y });
+		  });
+
+		console.log(linesArray);
+
 		//Lines
 		const drawLines = [
 			new Line({ x: 100*transX, y: 160*transY+yminLimit }, { x: 100*transX, y: 140*transY+yminLimit }), //1 to 4
@@ -76,7 +133,7 @@ const CanvasExample = ({ reload, setArr }) => {
 
 		//Circle drawing
 
-		const circleColor = "#000000";
+		
 
 		const a = new Circle(100*transX, 160*transY+yminLimit, circleColor, "a");
 		const b = new Circle(100*transX, 140*transY+yminLimit, circleColor, "b");
