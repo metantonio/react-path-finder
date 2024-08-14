@@ -176,44 +176,17 @@ const CanvasExample = ({ reload, setArr }) => {
 
 		//add Vertex
 
-		graph.addVartex("A");
-		graph.addVartex("B");
-		graph.addVartex("C");
-		graph.addVartex("D");
-		graph.addVartex("E");
-		graph.addVartex("F");
-		graph.addVartex("G");
-		graph.addVartex("H");
-		graph.addVartex("I");
-		graph.addVartex("J");
-		graph.addVartex("K");
-		graph.addVartex("L");
-		graph.addVartex("M");
-		graph.addVartex("N");
-		graph.addVartex("O");
-
+		// add vertex to the graph
+		points.forEach((point, index) => {
+			graph.addVartex(point.label.toUpperCase());
+		});
 		
 		// add each edge to the graph
 		edges.forEach((edge, index) => {
 			graph.addEdge(edge.start.toLocaleUpperCase(), edge.end.toLocaleUpperCase(), linesArray[index]);
 		});
 
-		/* graph.addEdge(`A`, `B`, drawLines[0]);
-		graph.addEdge(`B`, `C`, drawLines[1]);
-		graph.addEdge(`B`, `G`, drawLines[2]);
-		graph.addEdge(`F`, `G`, drawLines[3]);
-		graph.addEdge(`K`, `L`, drawLines[4]);
-		graph.addEdge(`G`, `L`, drawLines[5]);
-		graph.addEdge(`L`, `M`, drawLines[6]);
-		graph.addEdge(`G`, `H`, drawLines[7]);
-		graph.addEdge(`D`, `H`, drawLines[8]);
-		graph.addEdge(`H`, `N`, drawLines[9]);
-		graph.addEdge(`H`, `I`, drawLines[10]);
-		graph.addEdge(`I`, `O`, drawLines[11]);
-		graph.addEdge(`I`, `J`, drawLines[12]);
-		graph.addEdge(`E`, `I`, drawLines[13]); */
-
-
+	
 		const findArr = graph.dijkstra(
 			startLoctionForDijkstra,
 			finishLoctionForDijkstra
