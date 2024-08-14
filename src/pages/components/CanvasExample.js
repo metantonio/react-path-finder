@@ -288,10 +288,11 @@ const CanvasExample = ({ reload, setArr }) => {
 	const canvasMouseDown = (e, transX, transY) => {
 		if (!selectedArrow) return; // Si no hay flecha seleccionada, no hacer nada
 		const rect = canvasRef.current.getBoundingClientRect();
-		console.log("rect:",rect)
+		console.log("rect:", rect)
 		const mouseX = e.clientX - rect.left;
 		const mouseY = e.clientY - rect.top;
 		console.log("mouse data: \n", "e.clientX:", e.clientX, "\n", "e.clientY:", e.clientY, "\n", "mouseX, mouseY: ", mouseX, mouseY)
+
 		//Cheaking ... is 'Click' events occurs upon arrows or not?
 		/* arrows.forEach((x) => {
 			if (x.click(mouseX, mouseY)) {
@@ -299,22 +300,14 @@ const CanvasExample = ({ reload, setArr }) => {
 			}
 		}); */
 
-		const relativeX = (mouseX - imgScale.x) / imgScale.width;
-		const relativeY = (mouseY - imgScale.y) / imgScale.height;
-
-		const originalMaxX = Math.max(...mapData.points.map(point => point.coordinates.x));
-		const originalMaxY = Math.max(...mapData.points.map(point => point.coordinates.y));
-
-		// Calcular las coordenadas ajustadas para la flecha
-		const adjustedX = mouseX * imgScale.width/originalMaxX; // Si originalMaxX es el tamaño original de la imagen
-		const adjustedY = mouseY * imgScale.height/originalMaxY; // Si originalMaxY es el tamaño original de la imagen
-
+		const adjustedMouseX = (mouseX - imgScale.x) / ( imgScale.width);
+		const adjustedMouseY = (mouseY - imgScale.y) / (imgScale.height);
 
 		if (selectedArrow === "startArrow") {
 			setStart({ x: mouseX, y: mouseY });
 		} else if (selectedArrow === "endArrow") {
 			setEnd({ x: mouseX, y: mouseY });
-		}				
+		}
 		setSelectedArrow(null);
 	};
 
