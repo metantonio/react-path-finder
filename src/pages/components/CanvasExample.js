@@ -272,9 +272,9 @@ const CanvasExample = ({ reload, setArr }) => {
 		const relativeY = (mouseY - imgScale.y) / imgScale.height;
 
 		if (selectedArrow === "startArrow") {
-			setStart({ x: mouseX - xminLimit, y: mouseY - yminLimit });
+			setStart({ x: mouseX, y: mouseY });
 		} else if (selectedArrow === "endArrow") {
-			setEnd({ x: mouseX - xminLimit, y: mouseY - yminLimit });
+			setEnd({ x: mouseX , y: mouseY });
 		}
 
 		/* if (selectedArrow === "startArrow") {
