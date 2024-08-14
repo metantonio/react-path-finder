@@ -69,6 +69,18 @@ Algorithm visualizer is a react base web app where we can visualize and play wit
 
 <p>
  Use CanvasExample.js to modify the mapData. I've change the way how the map for nodes and edges is built.
+
+ Note that Y axis is inverted.
+ 
+```bash
+
+ -----> X+
+|
+|
+| 
+v Y+
+
+```
 </p>
 
 <h3> Note : </h3>
