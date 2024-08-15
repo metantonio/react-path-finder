@@ -23,6 +23,8 @@ const CanvasExample = ({ reload, setArr }) => {
 	const [selectedArrow, setSelectedArrow] = useState(null);
 	const [startLoctionForDijkstra, setStartLocation] = useState(null);
 	const [finishLoctionForDijkstra, setFinishLoaction] = useState(null);
+	const [selection, setSelection] = useState("Select Destination");
+	const [pointsState, setPointsState] = useState([])
 	const [dragDeatils, setDragDetails] = useState({
 		arrowName: undefined,
 	});
@@ -61,7 +63,7 @@ const CanvasExample = ({ reload, setArr }) => {
 				{ coordinates: { x: 533, y: 314 }, color: circleColor, label: "halld" },
 				{ coordinates: { x: 520, y: 300 }, color: circleColor, label: "halld1" },
 				{ coordinates: { x: 520, y: 256 }, color: circleColor, label: "halle" },
-				{ coordinates: { x: 520, y: 128 }, color: circleColor, label: "hardrock", name: "Hard Rock Live"  },
+				{ coordinates: { x: 520, y: 128 }, color: circleColor, label: "hardrock", name: "Hard Rock Live" },
 				{ coordinates: { x: 614, y: 314 }, color: circleColor, label: "hallf" },
 				{ coordinates: { x: 614, y: 256 }, color: circleColor, label: "hallf1" },
 				{ coordinates: { x: 612, y: 380 }, color: circleColor, label: "hallg" },
@@ -74,13 +76,13 @@ const CanvasExample = ({ reload, setArr }) => {
 				{ coordinates: { x: 313, y: 238 }, color: circleColor, label: "hallj2" },
 				{ coordinates: { x: 313, y: 284 }, color: circleColor, label: "hallj3" },
 				{ coordinates: { x: 245, y: 323 }, color: circleColor, label: "hallj4" },
-				{ coordinates: { x: 700, y: 317 }, color: circleColor, label: "oculus", name: "The Oculus"  },
+				{ coordinates: { x: 700, y: 317 }, color: circleColor, label: "oculus", name: "The Oculus" },
 				{ coordinates: { x: 219, y: 274 }, color: circleColor, label: "hallk" },
-				{ coordinates: { x: 313, y: 200 }, color: circleColor, label: "security", name: "Security Podium / Lost & Found"  },
-				{ coordinates: { x: 368, y: 290 }, color: circleColor, label: "highlimittables1", name: "High Limit Tables 1"  },
-				{ coordinates: { x: 401, y: 210 }, color: circleColor, label: "highlimittables2", name: "High Limit Tables 2"  },
-				{ coordinates: { x: 468, y: 400 }, color: circleColor, label: "nonsmokingslots", name: "Non-Smoking Slots"  },
-				{ coordinates: { x: 537, y: 420 }, color: circleColor, label: "highlimitslots", name: "High Limit Slots"  },
+				{ coordinates: { x: 313, y: 200 }, color: circleColor, label: "security", name: "Security Podium / Lost & Found" },
+				{ coordinates: { x: 368, y: 290 }, color: circleColor, label: "highlimittables1", name: "High Limit Tables 1" },
+				{ coordinates: { x: 401, y: 210 }, color: circleColor, label: "highlimittables2", name: "High Limit Tables 2" },
+				{ coordinates: { x: 468, y: 400 }, color: circleColor, label: "nonsmokingslots", name: "Non-Smoking Slots" },
+				{ coordinates: { x: 537, y: 420 }, color: circleColor, label: "highlimitslots", name: "High Limit Slots" },
 				{ coordinates: { x: 594, y: 407 }, color: circleColor, label: "plumlounge", name: "Plum Lounge" },
 			],
 		edges: [
@@ -102,7 +104,7 @@ const CanvasExample = ({ reload, setArr }) => {
 			{ start: "hall3", end: "hallb" },
 			{ start: "hallb1", end: "hallb" },
 			{ start: "hallc", end: "hallb1" },
-			{ start: "hallc", end: "halld" },			
+			{ start: "hallc", end: "halld" },
 			{ start: "hall4", end: "halld1" },
 			{ start: "halld1", end: "halld" },
 			{ start: "halld1", end: "halle" },
@@ -158,6 +160,45 @@ const CanvasExample = ({ reload, setArr }) => {
 			setImgLoaded(true);
 		};
 	}, [imgSrc]);
+
+	let dropdownNames = () => {
+		
+		return (
+			<span className="d-flex flex-nowrap dropwdowncustom my-0 px-0 mx-0">
+				<div className="dropdown justify-content-center align-items-center">
+					<button
+						id="cajitagris"
+						type="button"
+						className="btn btn-primary dropdown-toggle btn-sm h-76"
+						data-bs-toggle="dropdown"
+					>
+						{selection}
+						{/* {clienteEstado[`${campo}`]} */}
+					</button>
+					<ul className="dropdown-menu" style={{ height: "180px", overflow: "auto" }}>
+						{pointsState.map((point, index) => {
+							if (point.name) {
+								return (
+									<li
+										className="dropdown-item"
+										key={index}
+										onClick={(e) => {
+											setSelection(point.name)
+											setSelectedArrow("endArrow")																			
+											setEnd({ x: point.coordinates.x, y: point.coordinates.y});											
+											setSelectedArrow(null);
+										}}
+									>
+										{point.name ? point.name : ""}
+									</li>
+								);
+							}
+						})}
+					</ul>
+				</div>
+			</span>
+		)
+	}
 
 	useEffect(() => {
 		const canvas = canvasRef.current;
@@ -240,6 +281,7 @@ const CanvasExample = ({ reload, setArr }) => {
 					}
 				};
 			});
+			setPointsState(points)
 			const edges = mapData.edges;
 			const Circle = circleFun(ctx);
 			const Line = lineFun(ctx);
@@ -325,6 +367,8 @@ const CanvasExample = ({ reload, setArr }) => {
 			);
 			// Saving the result arr
 			setResultArr(findArr);
+
+			//dropdownNames(points)
 		}
 
 	}, [reload, start, end, startLoctionForDijkstra, finishLoctionForDijkstra, imgLoaded]);
@@ -332,8 +376,9 @@ const CanvasExample = ({ reload, setArr }) => {
 	//passing the result arr in parent
 	setArr(resultArr);
 
-	//Mouse Down
+	
 
+	//Mouse Down
 	const canvasMouseDown = (e, transX, transY) => {
 		if (!selectedArrow) return; // Si no hay flecha seleccionada, no hacer nada
 		const rect = canvasRef.current.getBoundingClientRect();
@@ -349,7 +394,7 @@ const CanvasExample = ({ reload, setArr }) => {
 			}
 		}); */
 
-		const adjustedMouseX = (mouseX - imgScale.x) / ( imgScale.width);
+		const adjustedMouseX = (mouseX - imgScale.x) / (imgScale.width);
 		const adjustedMouseY = (mouseY - imgScale.y) / (imgScale.height);
 
 		if (selectedArrow === "startArrow") {
@@ -403,6 +448,7 @@ const CanvasExample = ({ reload, setArr }) => {
 				<button onClick={() => setSelectedArrow("endArrow")}>
 					Select finish point
 				</button>
+				{dropdownNames()}
 			</div>
 			<canvas
 				ref={canvasRef}
