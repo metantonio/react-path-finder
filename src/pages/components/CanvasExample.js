@@ -120,6 +120,7 @@ const CanvasExample = ({ reload, setArr }) => {
 			{ start: "oculus", end: "hallf" },
 			{ start: "hallj4", end: "halli" },
 			{ start: "star1", end: "hallh" },
+			{ start: "hall2", end: "hallh" },
 			{ start: "hallj", end: "hallj1" },
 			{ start: "hallj2", end: "hallj1" },
 			{ start: "hallj2", end: "hallj3" },
