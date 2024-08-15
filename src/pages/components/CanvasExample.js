@@ -19,7 +19,7 @@ const CanvasExample = ({ reload, setArr }) => {
 	const [element, elementArr] = useState([]);
 	const [arrows, setArrows] = useState([]);
 	const [start, setStart] = useState({ x: 10, y: 14.5 });
-	const [end, setEnd] = useState({ x: 40, y: 10 });
+	const [end, setEnd] = useState({ x: 40, y: 14.5 });
 	const [selectedArrow, setSelectedArrow] = useState(null);
 	const [startLoctionForDijkstra, setStartLocation] = useState(null);
 	const [finishLoctionForDijkstra, setFinishLoaction] = useState(null);
