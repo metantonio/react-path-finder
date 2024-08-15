@@ -81,6 +81,7 @@ const CanvasExample = ({ reload, setArr }) => {
 				{ coordinates: { x: 401, y: 210 }, color: circleColor, label: "highlimittables2" },
 				{ coordinates: { x: 468, y: 400 }, color: circleColor, label: "nonsmokingslots" },
 				{ coordinates: { x: 537, y: 420 }, color: circleColor, label: "highlimitslots" },
+				{ coordinates: { x: 594, y: 407 }, color: circleColor, label: "plumlounge" },
 			],
 		edges: [
 			{ start: "c", end: "star" },
@@ -133,6 +134,7 @@ const CanvasExample = ({ reload, setArr }) => {
 			{ start: "hall3", end: "nonsmokingslots" },
 			{ start: "hallb1", end: "nonsmokingslots" },
 			{ start: "hallc", end: "highlimitslots" },
+			{ start: "hallg", end: "plumlounge" },
 		]
 
 	}
