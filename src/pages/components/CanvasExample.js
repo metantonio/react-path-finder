@@ -33,7 +33,7 @@ const CanvasExample = ({ reload, setArr }) => {
 	const imgSrc = imageMap;
 	const [imgLoaded, setImgLoaded] = useState(false);
 	const [imgScale, setImgScale] = useState({ width: 0, height: 0, x: 0, y: 0 });
-	//if map width is larger than map height, add points to the coordinates to have more width than height
+	//add the coordinates of the vertex of the image in pixels
 	const mapData = {
 		points:
 			[
