@@ -73,8 +73,9 @@ const CanvasExample = ({ reload, setArr }) => {
 				{ coordinates: { x: 401, y: 238 }, color: circleColor, label: "hallj1" },
 				{ coordinates: { x: 313, y: 238 }, color: circleColor, label: "hallj2" },
 				{ coordinates: { x: 313, y: 284 }, color: circleColor, label: "hallj3" },
+				{ coordinates: { x: 245, y: 323 }, color: circleColor, label: "hallj4" },
 				{ coordinates: { x: 700, y: 317 }, color: circleColor, label: "oculus" },
-				{ coordinates: { x: 213, y: 274 }, color: circleColor, label: "hallk" },
+				{ coordinates: { x: 219, y: 274 }, color: circleColor, label: "hallk" },
 			],
 		edges: [
 			{ start: "c", end: "star" },
@@ -114,11 +115,13 @@ const CanvasExample = ({ reload, setArr }) => {
 			{ start: "hall1a", end: "hallj" },
 			{ start: "halle", end: "hallj" },
 			{ start: "oculus", end: "hallf" },
-			{ start: "hallk", end: "halli" },
+			{ start: "hallj4", end: "halli" },
 			{ start: "star1", end: "hallh" },
 			{ start: "hallj", end: "hallj1" },
 			{ start: "hallj2", end: "hallj1" },
 			{ start: "hallj2", end: "hallj3" },
+			{ start: "hallj4", end: "hallj3" },
+			{ start: "hallj4", end: "hallk" },
 		]
 
 	}
