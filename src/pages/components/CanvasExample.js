@@ -349,10 +349,10 @@ const CanvasExample = ({ reload, setArr }) => {
 		<>
 			<div>
 				<button onClick={() => setSelectedArrow("startArrow")}>
-					Select start arrow
+					Select start point
 				</button>
 				<button onClick={() => setSelectedArrow("endArrow")}>
-					Select finish arrow
+					Select finish point
 				</button>
 			</div>
 			<canvas
