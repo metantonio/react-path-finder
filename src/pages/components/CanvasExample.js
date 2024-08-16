@@ -519,7 +519,7 @@ const CanvasExample = ({ reload, setArr, setReload, arr }) => {
 
 	return (
 		<>
-			<div>
+			<div className="col d-flex mx-1 mt-3 align-items-center justify-content-center">
 				<button onClick={() => setSelectedArrow("startArrow")}>
 					Select start point
 				</button>
