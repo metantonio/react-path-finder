@@ -18,7 +18,7 @@ function arrowFun(ctx) {
 			//this.downPointY = this.scaleY(2 * this.size) + this.y;
 			this.downPointX = this.x;
 			this.downPointY =  this.y;
-			console.log("this.x, this.y: ", this.x, this.y)
+			//console.log("this.x, this.y: ", this.x, this.y)
 		}
 
 		draw() {
@@ -75,7 +75,7 @@ function arrowFun(ctx) {
 		move(xPos, yPos) {
 			this.x = this.scaleX(xPos);
 			this.y = this.scaleY(yPos);
-			console.log("this.x, this.y: ", this.x, this.y)
+			//console.log("this.x, this.y: ", this.x, this.y)
 			this.draw();
 			this.updateDownPoint();
 		}

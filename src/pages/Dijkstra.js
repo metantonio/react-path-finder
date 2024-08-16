@@ -26,6 +26,7 @@ function Dijkstra() {
 	const { enqueueSnackbar } = useSnackbar();
 
 	const handleStart = async () => {
+		console.log("arr: ", arr)
 		if (arr.length !== 0) {
 			for (let line of arr) {
 				await sleepFun(time);
@@ -70,7 +71,7 @@ function Dijkstra() {
 				videoUrl={demo}
 			/>
 			{/* <Canvas reload={reload} setArr={setArr} setReload={setReload} /> */}
-			<CanvasExample reload={reload} setArr={setArr} setReload={setReload} />
+			<CanvasExample reload={reload} setArr={setArr} arr={arr} setReload={setReload} />
 
 			<div className="navigation-area">
 				<Select

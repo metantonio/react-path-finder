@@ -13,7 +13,7 @@ const useStyle = makeStyles({
 	}),
 });
 
-const CanvasExample = ({ reload, setArr, setReload }) => {
+const CanvasExample = ({ reload, setArr, setReload, arr }) => {
 	const canvasRef = useRef(null);
 	const [resultArr, setResultArr] = useState([]);
 	const [element, elementArr] = useState([]);
@@ -183,51 +183,86 @@ const CanvasExample = ({ reload, setArr, setReload }) => {
 									<li
 										className="dropdown-item"
 										key={index}
-										onClick={(e) => {
-											setSelectedArrow("endArrow")
-
-											setSelection(point.name)
-											setStart(start);
-											//if (selectedArrow === "endArrow") {
-											setEnd({ x: point.coordinates.x, y: point.coordinates.y });
-											//}
-											setStart(start)
-											setSelectedArrow(null);
-											/* const Graph = dijkstraAlgo();
-											const graph = new Graph();
-											const ctx = canvasRef.current.getContext("2d");
+										onClick={async (e) => {
+											//setSelectedArrow("endArrow")
+											const canvas = canvasRef.current;
+											const canvasWidth = window.innerWidth;
+											const offsetY = 1.4
+											const canvasHeight = window.innerHeight / offsetY;
+											canvas.width = canvasWidth;
+											canvas.height = canvasHeight;
+											canvas.style.width = `${canvasWidth}px`;
+											canvas.style.height = `${canvasHeight}px`;
+											canvas.style.background = "#32567a";
+											const ctx = canvas.getContext("2d");
 											const Circle = circleFun(ctx);
-											const Line = lineFun(ctx);
 											const Arrow = arrowFun(ctx);
+											const Line = lineFun(ctx);
+											let fisrtArrow = new Arrow(16, "#16fb04", "startArrow");
+											let lastArrow = new Arrow(20, "red", "endArrow");
+											fisrtArrow.move(start.x, start.y);
+											lastArrow.move(point.coordinates.x, point.coordinates.y);
+
+											setArrows([fisrtArrow, lastArrow]);
+											setSelection(point.name)
+											//if (selectedArrow === "endArrow") {
+
+
+											const Graph = dijkstraAlgo();
+											const graphf = new Graph();
+
 											// add vertex to the graph
-											pointsState.forEach((point, index) => {
-												graph.addVartex(point.label.toUpperCase());
+											pointsState.forEach((pointf, index) => {
+												graphf.addVartex(pointf.label.toUpperCase());
 											});
-											const edges = mapData.edges;
-											let linesArray = edges.map(edge => {
+
+											let linesArray = mapData.edges.map(edgec => {
 												// Encontrar el punto de inicio y el punto final en el array de puntos
-												const startPoint = pointsState.find(point => point.label === edge.start).coordinates;
-												const endPoint = pointsState.find(point => point.label === edge.end).coordinates;
-								
+												const startPoint = pointsState.find(pointc => pointc.label === edgec.start).coordinates;
+												const endPoint = pointsState.find(pointc => pointc.label === edgec.end).coordinates;
+
 												// Crear una nueva instancia de Line con los puntos encontrados
 												return new Line({ x: startPoint.x, y: startPoint.y }, { x: endPoint.x, y: endPoint.y });
 											});
 
 											// add each edge to the graph
-											edges.forEach((edge, index) => {
-												graph.addEdge(edge.start.toLocaleUpperCase(), edge.end.toLocaleUpperCase(), linesArray[index]);
+											mapData.edges.forEach((edgef, index) => {
+												graphf.addEdge(edgef.start.toLocaleUpperCase(), edgef.end.toLocaleUpperCase(), linesArray[index]);
 											});
 
+											let circleArray = pointsState.map((pointf, index) => {
 
-											const findArr = graph.dijkstra(
-												startLoctionForDijkstra,
-												finishLoctionForDijkstra
+												// Crear una nueva instancia de Line con los puntos encontrados
+												return new Circle(pointf.coordinates.x, pointf.coordinates.y, pointf.color || "#000000", pointf.label.toLowerCase(), imgScale.width, imgScale.width);
+											});
+
+											elementArr(circleArray);
+											setStartLocation(null);
+											setFinishLoaction(null);
+
+											circleArray.forEach((x) => {
+												[fisrtArrow, lastArrow].forEach((arrow) => {
+													x.click(
+														arrow.downPointX,
+														arrow.downPointY,
+														arrow.name,
+														setStartLocation,
+														setFinishLoaction
+													);
+												});
+											});
+
+											console.log(graphf)
+											let findArrf = graphf.dijkstra(
+												fisrtArrow, lastArrow
 											);
-											// Saving the result arr
-											setResultArr(findArr);
-											setArr(findArr); */
 
-											canvasMouseUp(e)
+											console.log("findArr calc: ", findArrf)
+											// Saving the result arr
+											setEnd({ x: point.coordinates.x, y: point.coordinates.y });
+											setResultArr(findArrf);
+
+											setArr(findArrf);
 											setReload()
 										}}
 									>
@@ -411,6 +446,7 @@ const CanvasExample = ({ reload, setArr, setReload }) => {
 			setResultArr(findArr);
 
 			//dropdownNames(points)
+			//console.log("findArr: ",findArr)
 		}
 
 	}, [reload, start, end, startLoctionForDijkstra, finishLoctionForDijkstra, imgLoaded, selection, selectedArrow]);
@@ -490,7 +526,7 @@ const CanvasExample = ({ reload, setArr, setReload }) => {
 				<button onClick={() => setSelectedArrow("endArrow")}>
 					Select finish point
 				</button>
-				{/* {dropdownNames()} */}
+				{dropdownNames()}
 			</div>
 			<canvas
 				ref={canvasRef}
