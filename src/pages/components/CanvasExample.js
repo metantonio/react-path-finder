@@ -132,6 +132,7 @@ const CanvasExample = ({ reload, setArr, setReload, arr }) => {
 			{ start: "hallj4", end: "hallj3" },
 			{ start: "hallj4", end: "hallk" },
 			{ start: "hallj2", end: "security" },
+			{ start: "hall1a", end: "highlimittables1" },
 			{ start: "hallj1", end: "highlimittables2" },
 			{ start: "hall3", end: "nonsmokingslots" },
 			{ start: "hallb1", end: "nonsmokingslots" },
